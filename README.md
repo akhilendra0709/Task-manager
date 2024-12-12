@@ -1,50 +1,85 @@
-# React + TypeScript + Vite
+# Task Manager Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple yet powerful task manager app built with **React**, **TypeScript**, **Redux Toolkit**, and **Tailwind CSS**. This app allows users to manage their tasks efficiently with features like adding, deleting, toggling completion status, and updating task details. The app persists user data with **Redux Persist**, ensuring that the tasks remain even after refreshing the page.
 
-Currently, two official plugins are available:
+## Features 🚀
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Add Tasks**: Add new tasks with a title and description.
+- **Delete Tasks**: Easily remove tasks from the list.
+- **Toggle Completion**: Mark tasks as completed or pending.
+- **Update Tasks**: Edit the title and description of existing tasks.
+- **Persist Data**: Thanks to **Redux Persist**, your tasks will be saved even if the page is refreshed.
 
-## Expanding the ESLint configuration
+## Tech Stack 💻
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **React.js**: A powerful library for building user interfaces.
+- **TypeScript**: Type safety and better developer experience.
+- **Redux Toolkit**: Efficient state management with Redux.
+- **Redux Persist**: Persistent state across page refreshes.
+- **Tailwind CSS**: Utility-first CSS framework for styling.
 
-- Configure the top-level `parserOptions` property like this:
+## Setup and Installation 🛠️
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/akhilendra0709/Task-manager.git
+```
+### 2. Navigate to the project folder
+```bash
+cd task-manager
+```
+### 3. Install Dependencies
+```bash
+npm install
+```
+### 4. Run the application
+```bash
+npm run dev
+```
+#### This will launch the application in your default browser at http://localhost:3000.
+
+## Folder Structure 📂
+```bash
+src/
+├── assets/             # Static assets like images, fonts, etc.
+├── components/         # Reusable components (TaskList, TaskItem, etc.)
+├── redux/              # Redux-related files (taskSlice.js)
+├── types/              # TypeScript types (task.ts)
+├── App.css             # Global styles for the app
+├── App.tsx             # Main App component
+├── index.css           # Entry point for global styles
+├── main.tsx            # Main entry point for the app (ReactDOM rendering)
+└── vite-env.d.ts       # Vite environment settings (if using Vite)
+
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## How It Works ⚙️
+### Redux Slice (```taskSlice```)
+This application manages the task state using Redux Toolkit with a taskSlice that contains:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+- addTask: Adds a new task to the list.
+- deleteTask: Deletes a task by its ID.
+- toggleTask: Toggles the completed status of a task.
+- updateTask: Updates the title and description of an existing task.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## Redux Persist
+The app utilizes Redux Persist to store the task state across page refreshes. This means that even after you refresh the page, the tasks remain intact, providing a seamless user experience.
+
+## Contributing 🤝
+I welcome contributions to make this app even better! If you want to contribute, please follow these steps:
+
+- Fork the repository.
+- Create a new branch (git checkout -b feature-name).
+- Make your changes.
+- Commit your changes (git commit -m 'Add new feature').
+- Push to your branch (git push origin feature-name).
+- Open a pull request.
+
+## Acknowledgements 🎉
+- React and TypeScript for providing the framework and type safety.
+- Redux Toolkit for simplifying state management.
+- Tailwind CSS for making styling fast and fun.
+- Redux Persist for ensuring data persistence across refreshes.
+
+### Enjoy using the Task Manager app! Feel free to reach out if you have any questions or suggestions. 😊
