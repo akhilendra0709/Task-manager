@@ -38,20 +38,26 @@ const TaskList: React.FC = () => {
     }
   };
 
+  const handleDelete = (taskId: string) => {
+    // Delete the task and close the editing modal if open
+    dispatch(deleteTask(taskId));
+    setEditingTaskId(null); // Close the editing modal
+  };
+
   return (
-    <div className="max-w-xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-5xl font-bold text-center text-gray-700 mb-6">
+    <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+      <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-gray-700 mb-6">
         Task List
       </h2>
       <div className="space-y-4">
         {tasks.map((task: Task) => (
           <div
             key={task.id}
-            className={`flex items-start justify-between p-4 border rounded-lg shadow-sm ${
+            className={`flex flex-col sm:flex-row items-start justify-between p-4 border rounded-lg shadow-sm ${
               task.completed ? "bg-gray-300" : "bg-white"
             }`}
           >
-            <div className="flex-1">
+            <div className="flex-1 mb-4 sm:mb-0">
               {/* Task Title and Description */}
               <div className="flex items-center space-x-3">
                 <input
@@ -88,7 +94,7 @@ const TaskList: React.FC = () => {
                 ✏️
               </button>
               <button
-                onClick={() => dispatch(deleteTask(task.id))}
+                onClick={() => handleDelete(task.id)}
                 className="bg-red-500 p-4 rounded-full hover:bg-red-600 transition duration-300"
               >
                 🗑️
