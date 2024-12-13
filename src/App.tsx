@@ -8,7 +8,7 @@ const TaskManager: React.FC = () => {
       <div className="flex-1 mb-8 md:mb-0">
         <AddTaskForm />
       </div>
-      <div className="flex-1">
+      <div className="flex-1" style={{margin:"24px"}}>
         <TaskList />
       </div>
     </div>
