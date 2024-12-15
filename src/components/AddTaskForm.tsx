@@ -6,6 +6,7 @@ import { Task } from "../types/task";
 const AddTaskForm: React.FC = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [finishDate, setFinishDate] = useState<string>(""); // New state for finish date
   const dispatch = useDispatch();
 
   const handleAddTask = () => {
@@ -14,10 +15,12 @@ const AddTaskForm: React.FC = () => {
       title,
       description,
       completed: false,
+      finishDate,
     };
     dispatch(addTask(newTask));
     setTitle("");
     setDescription("");
+    setFinishDate("");
   };
 
   return (
@@ -38,6 +41,12 @@ const AddTaskForm: React.FC = () => {
           placeholder="Task Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <input
+          type="date" // Input type for date
+          value={finishDate}
+          onChange={(e) => setFinishDate(e.target.value)}
           className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <button

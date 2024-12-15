@@ -16,11 +16,22 @@ const TaskList: React.FC = () => {
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
   const [newTitle, setNewTitle] = useState<string>("");
   const [newDescription, setNewDescription] = useState<string>("");
+  const [newFinishDate, setNewFinishDate] = useState<string>("");
 
+  // Filter and sort states
+  const [filter, setFilter] = useState<"all" | "completed" | "incomplete">(
+    "all"
+  );
+  const [sortOrder, setSortOrder] = useState<"ascending" | "descending">(
+    "ascending"
+  );
+
+  // Handle edit and save actions
   const handleEdit = (task: Task) => {
     setEditingTaskId(task.id);
     setNewTitle(task.title);
-    setNewDescription(task.description || ""); // Allow empty description if none exists
+    setNewDescription(task.description || "");
+    setNewFinishDate(task.finishDate || "");
   };
 
   const handleSaveEdit = () => {
@@ -30,27 +41,96 @@ const TaskList: React.FC = () => {
           id: editingTaskId,
           title: newTitle,
           description: newDescription,
+          finishDate: newFinishDate,
         })
       );
-      setEditingTaskId(null); // Exit editing mode
+      setEditingTaskId(null);
       setNewTitle("");
       setNewDescription("");
+      setNewFinishDate("");
     }
   };
 
   const handleDelete = (taskId: string) => {
-    // Delete the task and close the editing modal if open
     dispatch(deleteTask(taskId));
     setEditingTaskId(null); // Close the editing modal
   };
+
+  // Filter tasks
+  const filteredTasks = tasks.filter((task) => {
+    if (filter === "completed") return task.completed;
+    if (filter === "incomplete") return !task.completed;
+    return true; // "all"
+  });
+
+  // Sort tasks by finishDate
+  const sortedTasks = filteredTasks.sort((a, b) => {
+    const dateA = a.finishDate ? new Date(a.finishDate).getTime() : Infinity;
+    const dateB = b.finishDate ? new Date(b.finishDate).getTime() : Infinity;
+
+    if (sortOrder === "ascending") {
+      return dateA - dateB;
+    }
+    return dateB - dateA;
+  });
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-gray-700 mb-6">
         Task List
       </h2>
+
+      {/* Filter & Sort Controls */}
+      <div className="flex justify-between mb-6">
+        {/* Filter Controls */}
+        <div>
+          <button
+            onClick={() => setFilter("all")}
+            className={`mt-2 px-4 py-2 rounded-lg mr-3 ${
+              filter === "all" ? "bg-blue-500 text-white" : "bg-gray-200"
+            }`}
+          >
+            All
+          </button>
+          <button
+            onClick={() => setFilter("completed")}
+            className={`mt-2 px-4 py-2 rounded-lg mr-3 ${
+              filter === "completed" ? "bg-green-500 text-white" : "bg-gray-200"
+            }`}
+          >
+            Completed
+          </button>
+          <button
+            onClick={() => setFilter("incomplete")}
+            className={`mt-2 px-4 py-2 rounded-lg ${
+              filter === "incomplete" ? "bg-red-500 text-white" : "bg-gray-200"
+            }`}
+          >
+            Incomplete
+          </button>
+        </div>
+
+        {/* Sort Controls */}
+        <div>
+          <button
+            onClick={() =>
+              setSortOrder(
+                sortOrder === "ascending" ? "descending" : "ascending"
+              )
+            }
+            className={`px-4 py-2 rounded-lg ${
+              sortOrder === "ascending" ? "bg-gray-200" : "bg-gray-200"
+            }`}
+          >
+            {sortOrder === "ascending"
+              ? "Sort by Date (Ascending) ↑"
+              : "Sort by Date (Descending) ↓"}
+          </button>
+        </div>
+      </div>
+
       <div className="space-y-4">
-        {tasks.map((task: Task) => (
+        {sortedTasks.map((task: Task) => (
           <div
             key={task.id}
             className={`flex flex-col sm:flex-row items-start justify-between p-4 border rounded-lg shadow-sm ${
@@ -83,6 +163,16 @@ const TaskList: React.FC = () => {
                   {task.description}
                 </p>
               </div>
+
+              {/* Display finish date */}
+              {task.finishDate && (
+                <div className="mt-2 text-sm text-gray-500">
+                  <span>
+                    Finish Date:{" "}
+                    {new Date(task.finishDate).toLocaleDateString()}
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Edit and Delete buttons */}
@@ -120,6 +210,12 @@ const TaskList: React.FC = () => {
               value={newDescription}
               onChange={(e) => setNewDescription(e.target.value)}
               placeholder="New Description"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <input
+              type="date"
+              value={newFinishDate}
+              onChange={(e) => setNewFinishDate(e.target.value)}
               className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <div className="flex justify-end space-x-3">

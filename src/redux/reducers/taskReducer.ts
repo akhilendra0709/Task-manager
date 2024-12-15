@@ -25,13 +25,19 @@ const taskSlice = createSlice({
     },
     updateTask: (
       state,
-      action: PayloadAction<{ id: string; title: string; description: string }>
+      action: PayloadAction<{
+        id: string;
+        title: string;
+        description: string;
+        finishDate: string | undefined;
+      }>
     ) => {
-      const { id, title, description } = action.payload;
+      const { id, title, description, finishDate } = action.payload;
       const task = state.tasks.find((task) => task.id === id);
       if (task) {
         task.title = title;
         task.description = description;
+        if (finishDate) task.finishDate = finishDate;
       }
     },
   },

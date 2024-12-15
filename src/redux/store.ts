@@ -4,6 +4,7 @@ import storage from "redux-persist/lib/storage"; // default to localStorage
 import { persistStore } from "redux-persist";
 import taskReducer from "./reducers/taskReducer";
 
+// Redux Persist configuration
 const persistConfig = {
   key: "root",
   storage,
@@ -16,6 +17,7 @@ const store = configureStore({
     tasks: persistedReducer,
   },
 });
+
 export type RootState = ReturnType<typeof store.getState>;
 export const persistor = persistStore(store);
 export default store;
